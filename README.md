@@ -10,6 +10,12 @@
 
 # Skills For Real Engineers
 
+> **This is my fork of [mattpocock/skills](https://github.com/mattpocock/skills).**
+> Matt wrote these; I keep them here so I can tweak them to my own workflow and run the same set
+> on every machine I use. Upstream is tracked as the `upstream` git remote and merged in
+> periodically. Original work is MIT licensed, see [LICENSE](./LICENSE).
+
+
 [![skills.sh](https://skills.sh/b/mattpocock/skills)](https://skills.sh/mattpocock/skills)
 
 My agent skills that I use every day to do real engineering - not vibe coding.
@@ -24,54 +30,38 @@ If you want to keep up with changes to these skills, and any new ones I create, 
 
 ## Installation (30-second setup)
 
-Two ways in, two philosophies. **The [Claude Code plugin](https://code.claude.com/docs/en/plugins)** installs the whole set as a managed, read-only bundle that updates when I ship, so you subscribe rather than fork. **[skills.sh](https://skills.sh/mattpocock/skills)** copies editable skill files into your project, so you can hack on them and make them your own. Pick one: installing both leaves you with every skill twice.
+One way in: clone this repo to `~/.claude/skills/nabil-skills` and Claude Code loads it as a plugin. The files you run are the files you edit, and git is the sync mechanism between machines.
 
 ### 1. Get the skills
 
-<details>
-<summary><strong>Claude Code</strong></summary>
+Clone this repo into your Claude Code skills directory. The directory name must match the plugin
+name, which is how Claude Code picks it up as `nabil-skills@skills-dir` with no marketplace and
+no install step.
 
 ```bash
-claude plugins install mattpocock-skills
+git clone https://github.com/nabzzz27/skills.git ~/.claude/skills/nabil-skills
 ```
 
-Or, from inside a session:
-
-```
-/plugin install mattpocock-skills
-```
-
-It's in Claude Code's official marketplace, so there's nothing to add first, and updates arrive automatically.
-
-</details>
-
-<details>
-<summary><strong>Codex, and other agents</strong></summary>
+Start a fresh session and check it loaded:
 
 ```bash
-npx skills@latest add mattpocock/skills
+claude plugin list
 ```
 
-Pick the skills you want, and which coding agents to install them on. **The installer lets you choose which skills to take, so make sure `setup-matt-pocock-skills` is one of them.**
+Skills are namespaced, so they appear as `/nabil-skills:tdd`, `/nabil-skills:code-review`, and so
+on. Editing a `SKILL.md` in this clone takes effect in the next session, no reinstall. To sync a
+tweak to another machine, `git push` here and `git pull` there.
 
-A native Codex plugin is on the roadmap (see [`.agents/adr/0002-ship-as-a-claude-code-plugin.md`](./.agents/adr/0002-ship-as-a-claude-code-plugin.md)).
+If you already have `mattpocock-skills` installed from the official marketplace, disable it so
+you are not carrying every skill twice, in `~/.claude/settings.json`:
 
-</details>
-
-<details>
-<summary><strong>For tinkerers</strong></summary>
-
-Use the same installer, on any agent, including Claude Code:
-
-```bash
-npx skills@latest add mattpocock/skills
+```json
+"enabledPlugins": {
+  "mattpocock-skills@claude-plugins-official": false
+}
 ```
 
-It writes the skills into your repo as ordinary files you own and can edit. Nothing updates behind your back; pull my latest changes when you want them with `npx skills update`.
-
-</details>
-
-### 2. Run `/setup-matt-pocock-skills`
+### 2. Run `/nabil-skills:setup-matt-pocock-skills`
 
 In your agent, run it once per repo. It will:
 
