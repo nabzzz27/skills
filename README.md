@@ -61,7 +61,21 @@ you are not carrying every skill twice, in `~/.claude/settings.json`:
 }
 ```
 
-### 2. Run `/nabil-skills:setup-matt-pocock-skills`
+### 2. Link the global instructions
+
+My global agent instructions (the rules every Claude Code session follows, in every repo) live
+in [`dotfiles/claude/CLAUDE.md`](./dotfiles/claude/CLAUDE.md). Link them into place, once per
+machine:
+
+```bash
+~/.claude/skills/nabil-skills/dotfiles/install.sh
+```
+
+This makes `~/.claude/CLAUDE.md` a symlink into the clone, so it syncs with `git pull` like the
+skills do. An existing `~/.claude/CLAUDE.md` is backed up first, and re-running is safe. See
+[`dotfiles/README.md`](./dotfiles/README.md).
+
+### 3. Run `/nabil-skills:setup-matt-pocock-skills`
 
 In your agent, run it once per repo. It will:
 
@@ -69,7 +83,7 @@ In your agent, run it once per repo. It will:
 - Ask you what labels you apply to tickets when you triage them (`/triage` uses labels)
 - Ask you where you want to save any docs we create
 
-### 3. Bam - you're ready to go.
+### 4. Bam - you're ready to go.
 
 ## Why These Skills Exist
 
