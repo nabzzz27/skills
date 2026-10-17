@@ -1,61 +1,58 @@
 # The canonical install block
 
-One install story, one wording. `README.md`, `.changeset/*`, and every page under `docs/` must say **this** and nothing else. Change it here first, then propagate.
+One install story, one wording.
+`README.md` and every page under `docs/` must say **this** and nothing else.
+Change it here first, then propagate.
 
-`mattpocock-skills` is listed in **Claude Code's official marketplace** (configured name `claude-plugins-official`, source repo `anthropics/claude-plugins-official`), which every Claude Code install has out of the box. There is no marketplace to add first. Official Anthropic marketplaces have auto-update enabled by default ([discover-plugins](https://code.claude.com/docs/en/discover-plugins)), so "updates arrive automatically" is a true claim, not a hope.
+## One route: clone into the skills directory
 
-## Claude Code: the plugin
+This fork has a single install route: clone the repo to `~/.claude/skills/nabil-skills`.
+Claude Code loads a plugin from a skills directory whose name matches the plugin `name` in `.claude-plugin/plugin.json`, and reports it as `nabil-skills@skills-dir`.
+There is no marketplace to add and no install command.
+
+The files Claude Code runs are the files in the clone, so an edit to a `SKILL.md` takes effect in the next session with no reinstall.
+Git is the sync mechanism between machines: `git push` on one, `git pull` on the other.
+Nothing updates on its own, and the `version` in `plugin.json` does not gate anything on this route.
+
+`.claude-plugin/marketplace.json` stays as a fallback for installing the repo through `claude plugin marketplace add`, but no doc presents it as a route.
+
+## Claude Code
 
 <canonical-block name="claude-code">
 
 ```bash
-claude plugins install mattpocock-skills
+git clone https://github.com/nabzzz27/skills.git ~/.claude/skills/nabil-skills
 ```
 
-Or, from inside a session:
-
-```
-/plugin install mattpocock-skills
-```
-
-It's in Claude Code's official marketplace, so there's nothing to add first, and updates arrive automatically.
-
-</canonical-block>
-
-## Codex, and other agents: skills.sh
-
-The plugin is Claude Code only. Everywhere else, [skills.sh](https://skills.sh/mattpocock/skills) copies editable skill files into the project. Use the whole-set form on `README.md`:
-
-<canonical-block name="skills-sh-whole-set">
+Start a fresh session and check it loaded:
 
 ```bash
-npx skills@latest add mattpocock/skills
-```
-
-Pick the skills you want, and which coding agents to install them on. **The installer lets you choose which skills to take: make sure `setup-matt-pocock-skills` is one of them.**
-
-</canonical-block>
-
-…and the single-skill form wherever one skill is named on its own. Note that **`docs/` pages are not a consumer of this block**: ai-hero renders the install widget above the body, so a page that writes the commands out duplicates it. See [writing-docs.md](./writing-docs.md).
-
-<canonical-block name="skills-sh-one-skill">
-
-```bash
-npx skills@latest add mattpocock/skills --skill=<name>
-```
-
-```bash
-npx skills@latest update <name>
+claude plugin list
 ```
 
 </canonical-block>
 
-`skills@latest` is the pinned spelling in all three. The pages under `docs/` used to carry their own copy of these commands; those blocks are now deleted rather than corrected, because the site renders the install commands itself.
+## Global instructions
 
-## The two routes are exclusive
+<canonical-block name="global-instructions">
 
-The plugin is a managed, read-only bundle you subscribe to. skills.sh writes files you own and edit. Installing both leaves the user with every skill twice: always say "pick one".
+```bash
+~/.claude/skills/nabil-skills/dotfiles/install.sh
+```
 
-## Not the install story
+</canonical-block>
 
-`.claude-plugin/marketplace.json` makes the repo its own single-plugin marketplace (`/plugin marketplace add mattpocock/skills`, then `/plugin install mattpocock-skills@mattpocock`). The official listing supersedes it. It is kept as a fallback for installing the repo directly (an unreleased commit, or a fork), and is **not** documented to users.
+## Never install alongside upstream
+
+Upstream ships the same skills as `mattpocock-skills@claude-plugins-official`.
+Having both enabled gives every skill twice, so always tell the reader to disable upstream:
+
+<canonical-block name="disable-upstream">
+
+```json
+"enabledPlugins": {
+  "mattpocock-skills@claude-plugins-official": false
+}
+```
+
+</canonical-block>

@@ -8,7 +8,9 @@ Skills are organized into bucket folders under `skills/`:
 
 Every skill in `engineering/` or `productivity/` (the **promoted** buckets) must have a reference in the top-level `README.md` and an entry in `.claude-plugin/plugin.json`'s `skills` array (the Claude Code plugin ships exactly the promoted set). Skills in `misc/`, `in-progress/`, and `deprecated/` must not appear in either.
 
-Install commands are copied verbatim from [.agents/install-block.md](./.agents/install-block.md). `.claude-plugin/marketplace.json` makes the repo its own single-plugin marketplace (a fallback the install block explains, not the documented route). Run `claude plugin validate . --strict` after touching either manifest. Why a Claude plugin but not (yet) a Codex one lives in [.agents/adr/0002-ship-as-a-claude-code-plugin.md](./.agents/adr/0002-ship-as-a-claude-code-plugin.md).
+Install commands are copied verbatim from [.agents/install-block.md](./.agents/install-block.md). The one documented route is cloning this repo to `~/.claude/skills/nabil-skills`, which Claude Code loads as the `nabil-skills@skills-dir` plugin. `.claude-plugin/marketplace.json` makes the repo its own single-plugin marketplace (a fallback, not the documented route). Run `claude plugin validate . --strict` after touching either manifest. [ADR 0002](./.agents/adr/0002-ship-as-a-claude-code-plugin.md) records why.
+
+This fork has no release automation and no changesets: don't add a `.changeset/` file, and never run upstream's release flow. The commit message is the record of what changed. When merging from upstream (`mattpocock/skills`), drop any `.changeset/`, `package.json`, `.github/` workflows or issue templates, and `SCOPE.md` it brings back.
 
 Each skill entry in the top-level `README.md` must link the skill name to its `SKILL.md`.
 
@@ -24,4 +26,4 @@ To (re)link every skill outside `deprecated/` and `misc/` into the local harness
 
 `dotfiles/` holds Nabil's personal machine config (the global `~/.claude/CLAUDE.md` and its `install.sh`), not skills. It is outside every skill rule above: no `README.md` entry, no `plugin.json` entry, no docs page.
 
-No em-dashes anywhere in this repo's prose (`SKILL.md` files, docs, `README.md`, `CHANGELOG.md`, ADRs, changesets, code comments). Where a sentence reaches for one, rewrite it instead with a comma, colon, period, parentheses, or a conjunction, whichever the sentence actually wants; never do a blind character substitution.
+No em-dashes anywhere in this repo's prose (`SKILL.md` files, docs, `README.md`, `CHANGELOG.md`, ADRs, code comments). Where a sentence reaches for one, rewrite it instead with a comma, colon, period, parentheses, or a conjunction, whichever the sentence actually wants; never do a blind character substitution.
