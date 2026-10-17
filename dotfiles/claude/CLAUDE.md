@@ -6,7 +6,7 @@ These are common instructions for Nabil's agents across all scenarios.
 
 - Never use the em dash (U+2014). Use plain dash "-" instead
 - When writing commit messages, NEVER auto-add your agent name as co-author
-- Never manually modify CHANGELOG.md files or any files that are marked as auto-generated
+- Never manually modify any files that are marked as auto-generated
 - When writing or substantially editing long Markdown files, put each full sentence on its own line.
   Preserve normal Markdown structure, but avoid wrapping multiple sentences onto one physical line.
 - When making technical decisions, do not give much weight to development cost.
@@ -17,3 +17,4 @@ These are common instructions for Nabil's agents across all scenarios.
   If something clearly looks off, even if it is not directly related to what you are doing, try to get it fixed along the way.
 - Apply that same high standard to engineering excellence: lint, test failures, and test flakiness.
   If you see one, even if it is not caused by what you are working on right now, still get it fixed.
+- Whenever you explain something to me, first call the Skill tool with `nabil-skills:cte` (Clear Technical English) and write the explanation by its rules.
