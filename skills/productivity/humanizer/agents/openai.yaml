@@ -1,0 +1,5 @@
+interface:
+  display_name: "Humanizer"
+  short_description: "Make AI-written text sound like the writer"
+policy:
+  allow_implicit_invocation: false
