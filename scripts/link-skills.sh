@@ -5,15 +5,32 @@ set -euo pipefail
 # It is not a supported installer. Modifications to it, or requests for
 # modifications, will not be approved.
 #
-# Links all skills in the repository into the local skill directories used by
-# each agent harness:
-#   - ~/.claude/skills: Claude Code
-#   - ~/.agents/skills: Codex and other Agent Skills-compatible harnesses
-# Each entry is a symlink into this repo, so a `git pull` is all that's needed
-# to keep installed skills up to date.
+# Links all skills in the repository into ~/.agents/skills, the skill directory
+# of Codex and other Agent Skills-compatible harnesses. Each entry is a symlink
+# into this repo, so a `git pull` is all that's needed to keep installed skills
+# up to date.
+#
+# Claude Code is deliberately not a destination. It already loads this clone
+# as the `nabil-skills@skills-dir` plugin, so a per-skill symlink in
+# ~/.claude/skills would load each skill a second time under a bare name, and
+# Claude Code keeps the bare one: `nabil-skills:cte` stops resolving and only
+# `cte` works. The script removes any such symlink it finds.
 
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
-DESTS=("$HOME/.claude/skills" "$HOME/.agents/skills")
+DESTS=("$HOME/.agents/skills")
+CLAUDE_SKILLS="$HOME/.claude/skills"
+
+if [ -d "$CLAUDE_SKILLS" ]; then
+  for entry in "$CLAUDE_SKILLS"/*; do
+    [ -L "$entry" ] || continue
+    case "$(readlink -f "$entry")" in
+      "$REPO"/skills/*)
+        rm "$entry"
+        echo "unlinked $(basename "$entry") ($CLAUDE_SKILLS)"
+        ;;
+    esac
+  done
+fi
 
 # Collect the repo's skills once, link into every destination. `deprecated/`
 # is retired, and `misc/` is kept around but rarely used and not promoted (see
